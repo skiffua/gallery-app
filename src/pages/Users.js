@@ -1,24 +1,82 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
+import { useTable } from 'react-table';
 
 import { fetchUsers } from '../store/actions';
 
+import {buildTableData, usersColumns} from '../helpers/data_table';
+
 function Users() {
+    // const data = React.useMemo(() => usersData,[]);
+    const [dataTable, setTableData] = useState([{}]);
+
+    const usersTableColumns = React.useMemo(() => usersColumns, []);
+
+
     const dispatch = useDispatch();
     const { users } = useSelector(state => state.users);
+    const tableInstance = useTable({ columns: usersTableColumns, data: dataTable });
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+    } = tableInstance;
 
     useEffect(() => {
         dispatch(fetchUsers());
     }, []);
 
     useEffect(() => {
-        console.log('users***', users);
+        if (users) {
+            setTableData(buildTableData(users));
+        }
     }, [users]);
 
     return (
         <div className="home_page">
-            USERS PAGE
-            {users ? users.map(el => el.id) : null}
+            <table {...getTableProps()}>
+                <thead>
+                {// Loop over the header rows
+                    headerGroups.map((headerGroup, key) => (
+                        // Apply the header row props
+                        <tr {...headerGroup.getHeaderGroupProps()} key={ key }>
+                            {// Loop over the headers in each row
+                                headerGroup.headers.map(column => (
+                                    // Apply the header cell props
+                                    <th {...column.getHeaderProps()} key={ key }>
+                                        {// Render the header
+                                            column.render('Header')}
+                                    </th>
+                                ))}
+                        </tr>
+                    ))}
+                </thead>
+                {/* Apply the table body props */}
+                <tbody {...getTableBodyProps()}>
+                {// Loop over the table rows
+                    rows.map((row, key) => {
+                        // Prepare the row for display
+                        prepareRow(row)
+                        return (
+                            // Apply the row props
+                            <tr {...row.getRowProps()} key={ key }>
+                                {// Loop over the rows cells
+                                    row.cells.map(cell => {
+                                        // Apply the cell props
+                                        return (
+                                            <td {...cell.getCellProps()} key={ key }>
+                                                {// Render the cell contents
+                                                    cell.render('Cell')}
+                                            </td>
+                                        )
+                                    })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
         </div>
     );
 }
