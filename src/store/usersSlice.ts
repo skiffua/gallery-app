@@ -2,9 +2,10 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit';
 
 import {fetchUsers} from './actions';
+import { User } from '../api/type';
 
 export interface UsersState {
-    users: Record<any, any>[]
+    users: User[]
 }
 
 const initialState: UsersState = {
@@ -15,7 +16,7 @@ export const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        add: (state, action: PayloadAction<Record<any, any>[]>) => {
+        add: (state, action: PayloadAction<User[]>) => {
             state.users = action.payload
         },
     },
@@ -24,13 +25,12 @@ export const usersSlice = createSlice({
         builder.addCase(fetchUsers.fulfilled, (state, action) => {
             // Add user to the state array
 
-            const newUsers = action.payload.filter((newUser: Record<string, any>) => {
-                return !state.users.some((user: Record<string, any>) => user.id === newUser.id);
-            })
+            // const newUsers = action.payload.filter((newUser: Record<string, any>) => {
+            //     return !state.users.some((user: Record<string, any>) => user.id === newUser.id);
+            // })
 
-            console.log('newUsers', newUsers);
-
-            state.users.push(...newUsers);
+            // state.users.push(...newUsers);
+            state.users = action.payload;
         })
     },
 })

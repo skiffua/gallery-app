@@ -7,15 +7,10 @@ import { fetchUsers } from '../store/actions';
 import {buildTableData, usersColumns} from '../helpers/data_table';
 
 function Users() {
-    // const data = React.useMemo(() => usersData,[]);
-    const [dataTable, setTableData] = useState([{}]);
-
-    const usersTableColumns = React.useMemo(() => usersColumns, []);
-
-
     const dispatch = useDispatch();
     const { users } = useSelector(state => state.users);
-    const tableInstance = useTable({ columns: usersTableColumns, data: dataTable });
+    const dataTable = React.useMemo(() => buildTableData(users), [users]);
+    const tableInstance = useTable({ columns: usersColumns, data: dataTable });
     const {
         getTableProps,
         getTableBodyProps,
@@ -28,12 +23,6 @@ function Users() {
         dispatch(fetchUsers());
     }, []);
 
-    useEffect(() => {
-        if (users) {
-            setTableData(buildTableData(users));
-        }
-    }, [users]);
-
     return (
         <div className="home_page">
             <table {...getTableProps()}>
@@ -43,9 +32,9 @@ function Users() {
                         // Apply the header row props
                         <tr {...headerGroup.getHeaderGroupProps()} key={ key }>
                             {// Loop over the headers in each row
-                                headerGroup.headers.map(column => (
+                                headerGroup.headers.map((column, key2) => (
                                     // Apply the header cell props
-                                    <th {...column.getHeaderProps()} key={ key }>
+                                    <th {...column.getHeaderProps()} key={ key2 }>
                                         {// Render the header
                                             column.render('Header')}
                                     </th>

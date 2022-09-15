@@ -1,3 +1,5 @@
+import { UserToView } from '../api/type';
+
 export const usersColumns = [
     {
         Header: 'ID',
@@ -17,8 +19,8 @@ export const usersColumns = [
     },
 ];
 
-export function buildTableData(data: Record<any, any>[]): any {
-    return data.map((user) => {
+export function buildTableData(data: UserToView[]): any {
+    return data.map((user: UserToView) => {
         const { id, name, username, company } = user;
 
         return { id, name, username, company: company.name };
