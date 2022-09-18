@@ -1,15 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { useDispatch, useSelector  } from 'react-redux';
 import { useTable } from 'react-table';
+import { usersColumns } from '../../helpers/data_table';
 
-import { fetchUsers } from '../store/actions';
-
-import {buildTableData, usersColumns} from '../helpers/data_table';
-
-function Users() {
-    const dispatch = useDispatch();
-    const { users } = useSelector(state => state.users);
-    const dataTable = React.useMemo(() => buildTableData(users), [users]);
+function DataTable({ dataTable } : { dataTable: any }) {
     const tableInstance = useTable({ columns: usersColumns, data: dataTable });
     const {
         getTableProps,
@@ -19,12 +12,14 @@ function Users() {
         prepareRow,
     } = tableInstance;
 
+    const [isComponentVisible, setComponentVisible] = useState(false);
+
     useEffect(() => {
-        dispatch(fetchUsers());
+        setComponentVisible(true);
     }, []);
 
     return (
-        <div className="home_page">
+        <div className={`transition-opacity duration-[3000ms] ${isComponentVisible ? 'opacity-100' : 'opacity-0 '}`}>
             <table {...getTableProps()}>
                 <thead>
                 {// Loop over the header rows
@@ -52,10 +47,10 @@ function Users() {
                             // Apply the row props
                             <tr {...row.getRowProps()} key={ key }>
                                 {// Loop over the rows cells
-                                    row.cells.map(cell => {
+                                    row.cells.map((cell, key2) => {
                                         // Apply the cell props
                                         return (
-                                            <td {...cell.getCellProps()} key={ key }>
+                                            <td {...cell.getCellProps()} key={ key2 }>
                                                 {// Render the cell contents
                                                     cell.render('Cell')}
                                             </td>
@@ -67,7 +62,7 @@ function Users() {
                 </tbody>
             </table>
         </div>
-    );
+);
 }
 
-export default Users;
+export default DataTable;
