@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTable } from 'react-table';
 import { usersColumns } from '../../helpers/data_table';
 

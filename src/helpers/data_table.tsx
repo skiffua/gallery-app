@@ -1,6 +1,9 @@
-import { UserToView } from '../api/type';
+import React from 'react';
 
-export const usersColumns = [
+import { UserToView } from '../api/type';
+import {CellProps, Column, UseExpandedRowProps} from 'react-table';
+
+export const usersColumns: Column[] = [
     {
         Header: 'ID',
         accessor: 'id', // accessor is the "key" in the data
@@ -16,6 +19,19 @@ export const usersColumns = [
     {
         Header: 'COMPANY',
         accessor: 'company',
+    },
+    {
+        Header: 'Actions',
+        accessor: 'action',
+        Cell: ({ row }: any) => (
+            // Use Cell to render an expander for each row.
+            // We can use the getToggleRowExpandedProps prop-getter
+            // to build the expander.
+            <button className="bg-zinc-300 rounded-md text-xs w-[90px]
+                hover:bg-zinc-600 hover:shadow-black hover:shadow-sm">
+                DELETE USER
+            </button>
+        ),
     },
 ];
 
