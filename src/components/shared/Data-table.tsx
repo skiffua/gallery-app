@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useTable } from 'react-table';
-import { usersColumns } from '../../helpers/data_table';
 
-function DataTable({ dataTable } : { dataTable: any }) {
-    const tableInstance = useTable({ columns: usersColumns, data: dataTable });
+function DataTable({ dataTable, usersColumns } : { dataTable: any, usersColumns: any }) {
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = tableInstance;
+    } = useTable({ columns: usersColumns, data: dataTable });
 
     const [isComponentVisible, setComponentVisible] = useState(false);
 

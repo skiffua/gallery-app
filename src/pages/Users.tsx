@@ -6,7 +6,7 @@ import { fetchUsers } from '../store/actions';
 import { User } from '../api/type';
 import { AppDispatch, RootState } from '../store/store';
 
-import { buildTableData } from '../helpers/data_table';
+import { buildTableData, usersColumns } from '../helpers/data_table';
 import DataTable from '../components/shared/Data-table';
 
 function Users() {
@@ -25,7 +25,7 @@ function Users() {
 
     return (
         <div className="home_page bg-midnight flex-grow flex justify-center">
-            { dataTable.length ? <DataTable dataTable={ dataTable } /> :
+            { dataTable.length ? <DataTable dataTable={ dataTable } usersColumns={ usersColumns } /> :
                 <button type="button" className="inline-flex items-center" disabled>
                     <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
