@@ -3,7 +3,7 @@ import { Column } from 'react-table';
 
 import { UserToView } from '../api/type';
 
-export const usersColumns: Column[] = [
+export const usersColumns: (par: any) => Column[] = (deleteUserAction) => [
     {
         Header: 'ID',
         accessor: 'id', // accessor is the "key" in the data
@@ -24,17 +24,19 @@ export const usersColumns: Column[] = [
         Header: 'Actions',
         accessor: 'action',
         Cell: ({ row }: any) => (
-            // Use Cell to render an expander for each row.
-            // We can use the getToggleRowExpandedProps prop-getter
-            // to build the expander.
-            <button className="bg-zinc-300 rounded-md text-xs w-[90px]
+
+                // Use Cell to render an expander for each row.
+                // We can use the getToggleRowExpandedProps prop-getter
+                // to build the expander.
+                <button className="bg-zinc-300 rounded-md text-xs w-[90px]
                 hover:bg-zinc-600 hover:shadow-black hover:shadow-sm"
                     // how to handle
-                    //onClick={}
-            >
-                DELETE USER
-            </button>
-        ),
+                        onClick={ deleteUserAction(row.values.id) }
+                        value={ row.values.id }
+                >
+                    DELETE USER
+                </button>
+            ),
     },
 ];
 

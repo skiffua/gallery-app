@@ -16,8 +16,14 @@ export const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        add: (state, action: PayloadAction<User[]>) => {
-            state.users = action.payload
+        deleteUser: (state, action: PayloadAction<number>) => {
+            console.log('delete user action');
+
+            const indexUserToDel: number = state.users.findIndex(el => el.id === action.payload);
+
+            if (indexUserToDel) {
+                state.users.splice(indexUserToDel, 1);
+            }
         },
     },
     extraReducers: (builder) => {
@@ -38,7 +44,7 @@ export const usersSlice = createSlice({
 console.log('usersSlice', usersSlice);
 
 // Action creators are generated for each case reducer function
-export const { add } = usersSlice.actions
+export const { deleteUser } = usersSlice.actions
 
 export const users = (state: UsersState) => state.users;
 
