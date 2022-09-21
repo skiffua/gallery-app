@@ -17,11 +17,9 @@ export const usersSlice = createSlice({
     initialState,
     reducers: {
         deleteUser: (state, action: PayloadAction<number>) => {
-            console.log('delete user action');
-
             const indexUserToDel: number = state.users.findIndex(el => el.id === action.payload);
 
-            if (indexUserToDel) {
+            if (indexUserToDel !== -1) {
                 state.users.splice(indexUserToDel, 1);
             }
         },
