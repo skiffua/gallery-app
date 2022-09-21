@@ -2,9 +2,10 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit';
 
 import {fetchUsers} from './actions';
+import { User } from '../api/type';
 
 export interface UsersState {
-    users: Record<any, any>[]
+    users: User[]
 }
 
 const initialState: UsersState = {
@@ -15,8 +16,14 @@ export const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        add: (state, action: PayloadAction<Record<any, any>[]>) => {
-            state.users = action.payload
+        deleteUser: (state, action: PayloadAction<number>) => {
+            console.log('delete user action');
+
+            const indexUserToDel: number = state.users.findIndex(el => el.id === action.payload);
+
+            if (indexUserToDel) {
+                state.users.splice(indexUserToDel, 1);
+            }
         },
     },
     extraReducers: (builder) => {
@@ -24,13 +31,12 @@ export const usersSlice = createSlice({
         builder.addCase(fetchUsers.fulfilled, (state, action) => {
             // Add user to the state array
 
-            const newUsers = action.payload.filter((newUser: Record<string, any>) => {
-                return !state.users.some((user: Record<string, any>) => user.id === newUser.id);
-            })
+            // const newUsers = action.payload.filter((newUser: Record<string, any>) => {
+            //     return !state.users.some((user: Record<string, any>) => user.id === newUser.id);
+            // })
 
-            console.log('newUsers', newUsers);
-
-            state.users.push(...newUsers);
+            // state.users.push(...newUsers);
+            state.users = action.payload;
         })
     },
 })
@@ -38,7 +44,7 @@ export const usersSlice = createSlice({
 console.log('usersSlice', usersSlice);
 
 // Action creators are generated for each case reducer function
-export const { add } = usersSlice.actions
+export const { deleteUser } = usersSlice.actions
 
 export const users = (state: UsersState) => state.users;
 

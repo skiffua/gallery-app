@@ -10,7 +10,7 @@ import About from './pages/About';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App h-full flex flex-col">
       <header className="App-header h-22">
           <nav>
               <Link to="/">USERS</Link> |{' '}
