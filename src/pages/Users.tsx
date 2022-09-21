@@ -15,8 +15,6 @@ function Users() {
     const { users } = useSelector<RootState, { users: User[] }>((state) => state.users);
     const dataTable = React.useMemo(() => buildTableData(users), [users]);
 
-    const test = () => { console.log('test')};
-
     useEffect(() => {
         // delay fetching
         const timeOutId = setTimeout(() => {
