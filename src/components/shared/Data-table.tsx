@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useTable } from 'react-table';
+import { Column, useTable } from 'react-table';
 
-function DataTable({ dataTable, usersColumns } : { dataTable: any, usersColumns: any }) {
+interface dataInterface<T extends object> {
+    data: T[],
+    columns: Column<T>[]
+}
+
+function DataTable<T extends object>({ data, columns }: dataInterface<T>) {
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns: usersColumns, data: dataTable });
+    } = useTable({ columns, data });
 
     const [isComponentVisible, setComponentVisible] = useState(false);
 

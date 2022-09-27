@@ -40,7 +40,7 @@ export const usersColumns: (par: any) => Column[] = (deleteUserAction) => [
     },
 ];
 
-export function buildTableData(data: UserToView[]): any {
+export function buildTableData<T extends object>(data: UserToView[]): Record<string, string | number>[] {
     return data.map((user: UserToView) => {
         const {id, name, username, company} = user;
 
