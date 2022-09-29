@@ -1,9 +1,10 @@
 import React from 'react';
-import { Column } from 'react-table';
+import {CellProps, Column } from 'react-table';
 
-import { UserToView } from '../api/type';
+import { User, UserToView } from '../api/type';
+import { Action } from 'redux';
 
-export const usersColumns: (par: any) => Column[] = (deleteUserAction) => [
+export const usersColumns: (par: (arg: number) => () => Action) => Column[] = (deleteUserAction) => [
     {
         Header: 'ID',
         accessor: 'id', // accessor is the "key" in the data
@@ -23,8 +24,7 @@ export const usersColumns: (par: any) => Column[] = (deleteUserAction) => [
     {
         Header: 'Actions',
         accessor: 'action',
-        Cell: ({ row }: any) => (
-
+        Cell: ({ row }: CellProps<User>): JSX.Element => (
                 // Use Cell to render an expander for each row.
                 // We can use the getToggleRowExpandedProps prop-getter
                 // to build the expander.
