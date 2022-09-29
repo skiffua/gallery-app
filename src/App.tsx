@@ -16,7 +16,6 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
     // trables with interfaces !!!
     const rightHandle = ({ target: { value }}: React.ChangeEvent<HTMLInputElement>): void => {
-        console.log(value)
 
         dispatch(switchRight(value))
   }

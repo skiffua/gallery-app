@@ -28,8 +28,8 @@ function Users() {
         <div className="home_page bg-midnight flex-grow flex justify-center">
             { dataTable.length ?
                 <DataTable
-                    dataTable={ dataTable }
-                    usersColumns={ usersColumns((id: number) => () => dispatch(deleteUser(id))) }
+                    data={ dataTable }
+                    columns={ usersColumns((id: number) => () => dispatch(deleteUser(id))) }
                 /> :
                 <button type="button" className="inline-flex items-center" disabled>
                     <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
