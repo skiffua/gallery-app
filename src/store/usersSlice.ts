@@ -39,8 +39,6 @@ export const usersSlice = createSlice({
     },
 })
 
-console.log('usersSlice', usersSlice);
-
 // Action creators are generated for each case reducer function
 export const { deleteUser } = usersSlice.actions
 
