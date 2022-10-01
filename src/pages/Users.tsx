@@ -24,12 +24,21 @@ function Users() {
         return () => { clearTimeout(timeOutId); }
     }, []);
 
+    const onDeleteUser = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+        dispatch(deleteUser(id))
+    }
+
+    const onRowClick = (user: User) => {
+        console.log('row click', user);
+    }
+
     return (
         <div className="home_page bg-midnight flex-grow flex justify-center">
             { dataTable.length ?
                 <DataTable
                     data={ dataTable }
-                    columns={ usersColumns((id: number) => () => dispatch(deleteUser(id))) }
+                    columns={ usersColumns((e: React.MouseEvent<HTMLButtonElement>, id: number) => onDeleteUser(e, id)) }
+                    clickRowHandler={(row: User) => onRowClick(row)}
                 /> :
                 <button type="button" className="inline-flex items-center" disabled>
                     <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">

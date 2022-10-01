@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Column, useTable } from 'react-table';
+import {Column, Row, useTable} from 'react-table';
 
 interface dataInterface<T extends object> {
     data: T[],
-    columns: Column<T>[]
+    columns: Column<T>[],
+    clickRowHandler: (row: object) => void
 }
 
-function DataTable<T extends object>({ data, columns }: dataInterface<T>) {
+function DataTable<T extends object>({ data, columns, clickRowHandler }: dataInterface<T>) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -43,12 +44,12 @@ function DataTable<T extends object>({ data, columns }: dataInterface<T>) {
                 {/* Apply the table body props */}
                 <tbody {...getTableBodyProps()}>
                 {// Loop over the table rows
-                    rows.map((row, key) => {
+                    rows.map((row: Row<T>, key: number) => {
                         // Prepare the row for display
                         prepareRow(row)
                         return (
                             // Apply the row props
-                            <tr {...row.getRowProps()} key={ key }>
+                            <tr {...row.getRowProps()} key={ key } onClick={() => clickRowHandler(row)}>
                                 {// Loop over the rows cells
                                     row.cells.map((cell, key2) => {
                                         // Apply the cell props
