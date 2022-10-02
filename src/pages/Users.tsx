@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
+import './user.scss';
 
 import { fetchUsers } from '../store/actions';
 
@@ -25,6 +26,8 @@ function Users() {
     }, []);
 
     const onDeleteUser = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+        e.stopPropagation();
+
         dispatch(deleteUser(id))
     }
 
