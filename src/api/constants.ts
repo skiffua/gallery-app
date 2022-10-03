@@ -4,4 +4,5 @@ export const GLOBAL_VAR: Record<string, string> = {
 
 export const ROUTES: Record<string, string> = {
     USERS: '/users',
+    USER: '/user',
 }

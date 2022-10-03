@@ -15,6 +15,21 @@ const fetchUsers = createAsyncThunk(
     }
 )
 
+const fetchUser = createAsyncThunk(
+    'users/fetchUser',
+    async (userId: number): Promise<User> => {
+        const response: { data: User } = await httpServ.get(`${GLOBAL_VAR.BASE_URL}${ROUTES.USERS}/${userId}`);
+        const { id } = response.data;
+
+        if (id) {
+            return response.data;
+        } else {
+            return null;
+        }
+    }
+)
+
 export {
     fetchUsers,
+    fetchUser,
 }

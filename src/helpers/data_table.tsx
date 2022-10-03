@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import {CellProps, Column } from 'react-table';
 
 import { User, UserToView } from '../api/type';
-import { Action } from 'redux';
+import {Action} from '@reduxjs/toolkit';
 
-export const usersColumns: (par: (arg: number) => () => Action) => Column[] = (deleteUserAction) => [
+// export const usersColumns: (par: (arg: number) => () => Action) => Column[] = (deleteUserAction) => [
+export const usersColumns: (par: (e: React.MouseEvent<HTMLButtonElement>, arg: number) => void)
+    => Column[] = (deleteUserAction) => [
     {
         Header: 'ID',
         accessor: 'id', // accessor is the "key" in the data
@@ -31,7 +33,7 @@ export const usersColumns: (par: (arg: number) => () => Action) => Column[] = (d
                 <button className="bg-zinc-300 rounded-md text-xs w-[90px]
                 hover:bg-zinc-600 hover:shadow-black hover:shadow-sm"
                     // how to handle
-                        onClick={ deleteUserAction(row.values.id) }
+                        onClick={ (e: React.MouseEvent<HTMLButtonElement>) => deleteUserAction(e, row.values.id) }
                         value={ row.values.id }
                 >
                     DELETE USER
