@@ -42,6 +42,4 @@ export const usersSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { deleteUser } = usersSlice.actions
 
-export const users = (state: UsersState) => state.users;
-
 export default usersSlice.reducer

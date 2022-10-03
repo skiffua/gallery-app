@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import usersReducer from './usersSlice';
+import userReducer from './userSlice';
 import rightsReducer from './rightsSlice';
 
 export const store = configureStore({
     reducer: {
         users: usersReducer,
         rights: rightsReducer,
+        user: userReducer,
     },
 })
 

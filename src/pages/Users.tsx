@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import './user.scss';
 
-import { fetchUsers } from '../store/actions';
+import {fetchUser, fetchUsers} from '../store/actions';
 
 import { User } from '../api/type';
 import { AppDispatch, RootState } from '../store/store';
@@ -10,11 +11,35 @@ import { AppDispatch, RootState } from '../store/store';
 import { buildTableData, usersColumns } from '../helpers/data_table';
 import DataTable from '../components/shared/Data-table';
 import { deleteUser } from '../store/usersSlice';
+import { Row } from 'react-table';
 
 function Users() {
     const dispatch = useDispatch<AppDispatch>();
     const { users } = useSelector<RootState, { users: User[] }>((state) => state.users);
+    const { user } = useSelector<RootState, { user: User }>((state) => state.user);
     const dataTable = React.useMemo(() => buildTableData(users), [users]);
+    const navigate = useNavigate();
+    const [isInitialRender, setIsInitialRender] = useState(true);
+
+    const onDeleteUser = (e: React.MouseEvent<HTMLButtonElement>, id: number): void => {
+        e.stopPropagation();
+
+        dispatch(deleteUser(id))
+    }
+
+    const onRowClick = ({ values: { id } }: Row): void => {
+        if (id) {
+            dispatch(fetchUser(id));
+        }
+    }
+
+    useEffect(() => {
+        const userId: null | number = user && user.id;
+
+        if (user && userId && !isInitialRender) {
+            navigate(`/user:${userId}`);
+        }
+    }, [user]);
 
     useEffect(() => {
         // delay fetching
@@ -22,18 +47,10 @@ function Users() {
             dispatch(fetchUsers());
         }, Math.floor(Math.random() * 4000));
 
+        setIsInitialRender(false);
+
         return () => { clearTimeout(timeOutId); }
     }, []);
-
-    const onDeleteUser = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
-        e.stopPropagation();
-
-        dispatch(deleteUser(id))
-    }
-
-    const onRowClick = (user: User) => {
-        console.log('row click', user);
-    }
 
     return (
         <div className="home_page bg-midnight flex-grow flex justify-center">
@@ -41,7 +58,7 @@ function Users() {
                 <DataTable
                     data={ dataTable }
                     columns={ usersColumns((e: React.MouseEvent<HTMLButtonElement>, id: number) => onDeleteUser(e, id)) }
-                    clickRowHandler={(row: User) => onRowClick(row)}
+                    clickRowHandler={(row: Row) => onRowClick(row)}
                 /> :
                 <button type="button" className="inline-flex items-center" disabled>
                     <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
