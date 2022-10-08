@@ -2,6 +2,8 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { useDispatch  } from 'react-redux';
 
+import { routes } from './routes/constants';
+
 import './App.css';
 
 import Users from './pages/Users';
@@ -24,7 +26,7 @@ function App() {
     <div className="App h-full flex flex-col">
       <header className="App-header h-22">
           <nav>
-              <Link to="/">USERS</Link> |{' '}
+              <Link to={ routes.home }>USERS</Link> |{' '}
               <Link to="about">ABOUT</Link>
           </nav>
           <div className="flex text-base">
@@ -44,11 +46,11 @@ function App() {
       </header>
         <Routes>
             <Route element={<PrivateRoutes/>}>
-                <Route path="/" element={<Users />} />
-                <Route path="user/:id" element={<User />} />
-                <Route path="/about" element={<About />} />
+                <Route path={ routes.home } element={<Users />} />
+                <Route path={ routes.user } element={<User />} />
+                <Route path={ routes.about } element={<About />} />
             </Route>
-            <Route path="/forbidden" element={<Forbidden />} />
+            <Route path={ routes.forbidden } element={<Forbidden />} />
         </Routes>
     </div>
   );

@@ -3,7 +3,7 @@ import { useDispatch, useSelector  } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './user.scss';
 
-import {fetchUser, fetchUsers} from '../store/actions';
+import { fetchUsers } from '../store/actions';
 
 import { User } from '../api/type';
 import { AppDispatch, RootState } from '../store/store';
@@ -29,7 +29,7 @@ function Users() {
 
     const onRowClick = ({ values: { id } }: Row): void => {
         if (id) {
-            dispatch(fetchUser(id));
+            navigate(`/user/${id}`);
         }
     }
 
@@ -37,7 +37,7 @@ function Users() {
         const userId: null | number = user && user.id;
 
         if (user && userId && !isInitialRender) {
-            navigate(`/user:${userId}`);
+            navigate(`/user/:${userId}`);
         }
     }, [user]);
 
