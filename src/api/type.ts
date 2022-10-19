@@ -14,9 +14,11 @@ export interface User {
     id: number;
     name: string;
     username: string;
+    phone?: string;
     address?: Adress;
     email?: string;
     company: Company;
+    website?: string;
 }
 
 export type UserToView = Pick<User, "id" | "name" | "username" | "company">;

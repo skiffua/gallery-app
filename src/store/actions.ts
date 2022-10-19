@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import {AsyncThunk, createAsyncThunk} from '@reduxjs/toolkit';
 
 import { GLOBAL_VAR, ROUTES } from '../api/constants';
 
@@ -17,7 +17,7 @@ const fetchUsers = createAsyncThunk(
 
 const fetchUser = createAsyncThunk(
     'users/fetchUser',
-    async (userId: number): Promise<User> => {
+    async (userId: number): Promise<User | null> => {
         const response: { data: User } = await httpServ.get(`${GLOBAL_VAR.BASE_URL}${ROUTES.USERS}/${userId}`);
         const { id } = response.data;
 

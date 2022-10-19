@@ -7,7 +7,7 @@ import { routes } from './routes/constants';
 import './App.css';
 
 import Users from './pages/Users';
-import User from './pages/User';
+import UserPage from './pages/UserPage';
 import About from './pages/About';
 import Forbidden from './pages/Forbidden';
 import {AppDispatch} from './store/store';
@@ -47,7 +47,7 @@ function App() {
         <Routes>
             <Route element={<PrivateRoutes/>}>
                 <Route path={ routes.home } element={<Users />} />
-                <Route path={ routes.user } element={<User />} />
+                <Route path={ routes.user } element={<UserPage />} />
                 <Route path={ routes.about } element={<About />} />
             </Route>
             <Route path={ routes.forbidden } element={<Forbidden />} />
