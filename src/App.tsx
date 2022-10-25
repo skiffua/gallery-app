@@ -4,7 +4,7 @@ import { useDispatch  } from 'react-redux';
 
 import { routes } from './routes/constants';
 
-import './App.css';
+import { FORM_MODE_ENUM } from './pages/types';
 
 import Users from './pages/Users';
 import UserPage from './pages/UserPage';
@@ -13,6 +13,8 @@ import Forbidden from './pages/Forbidden';
 import {AppDispatch} from './store/store';
 import { switchRight } from './store/rightsSlice';
 import PrivateRoutes from './routes/Private-routes';
+
+import './App.css';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -47,7 +49,7 @@ function App() {
         <Routes>
             <Route element={<PrivateRoutes/>}>
                 <Route path={ routes.home } element={<Users />} />
-                <Route path={ routes.user } element={<UserPage />} />
+                <Route path={ routes.user } element={<UserPage mode={ FORM_MODE_ENUM.PREVIEW }/>} />
                 <Route path={ routes.about } element={<About />} />
             </Route>
             <Route path={ routes.forbidden } element={<Forbidden />} />

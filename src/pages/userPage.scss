@@ -6,6 +6,10 @@
     margin: 0 auto;
 
     &__block {
+      &__section {
+        padding-top: 15px;
+        color: #fecaca;
+      }
       &__label {
         line-height: 2;
         text-align: left;
