@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { FORM_MODE, FORM_MODE_ENUM } from '../../../pages/types';
-import { User } from '../../../api/type';
+import { FORM_MODE, FORM_MODE_ENUM } from '../../pages/types';
+import { User } from '../../api/type';
 
 import './form.scss';
-import { AppDispatch } from '../../../store/store';
-import { updateUser } from '../../../store/usersSlice';
+import { AppDispatch } from '../../store/store';
+import { addUser, updateUser } from '../../store/usersSlice';
 
 function UserForm({
     mode = FORM_MODE_ENUM.PREVIEW,
     userData,
-                  }: FORM_MODE & { userData: User }) {
+    closeModal
+                  }: FORM_MODE & { userData: User; closeModal?: () => void }) {
     const dispatch = useDispatch<AppDispatch>();
     const [formMode, setFormMode] = useState(FORM_MODE_ENUM.PREVIEW);
 
@@ -51,6 +52,11 @@ function UserForm({
     const editUser = (): any => {
         dispatch(updateUser(getValues().formData));
         changeFormMode(FORM_MODE_ENUM.PREVIEW);
+    }
+
+    const addNewUser = (): any => {
+        if(closeModal) { closeModal() }
+        dispatch(addUser(getValues().formData));
     }
 
     useEffect(() => {
@@ -177,15 +183,27 @@ function UserForm({
                         {...register('formData.website')}
                     />
                 </div>
-                <div className="user-form__block">
+                <div className="user-form__block flex justify-between">
                     { formMode === FORM_MODE_ENUM.ADD &&
-                        <input type="submit" value="Submit" className="cursor-pointer" />  }
+                        <input
+                            type="submit"
+                            value="Add"
+                            className="cursor-pointer"
+                            onClick={addNewUser}
+                        />  }
                     { formMode === FORM_MODE_ENUM.EDIT &&
                         <input
                             type="submit"
                             value="EDIT"
                             className="cursor-pointer"
                             onClick={editUser}
+                        />  }
+                    { formMode === FORM_MODE_ENUM.EDIT &&
+                        <input
+                            type="submit"
+                            value="RESET"
+                            className="cursor-pointer"
+                            onClick={() => changeFormMode(FORM_MODE_ENUM.PREVIEW)}
                         />  }
                     { formMode === FORM_MODE_ENUM.PREVIEW
                         && <input
@@ -194,6 +212,12 @@ function UserForm({
                             onClick={() => changeFormMode(FORM_MODE_ENUM.EDIT)}
                             className="cursor-pointer"
                         />  }
+                    { closeModal && <input
+                        type="submit"
+                        value="Close"
+                        className="cursor-pointer"
+                        onClick={closeModal}
+                    /> }
                 </div>
             </form>
         </div>

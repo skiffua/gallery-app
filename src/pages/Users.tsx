@@ -12,6 +12,7 @@ import { buildTableData, usersColumns } from '../helpers/data_table';
 import DataTable from '../components/shared/Data-table';
 import { deleteUser } from '../store/usersSlice';
 import { Row } from 'react-table';
+import Modal from '../components/shared/modal/Modal';
 
 function Users() {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +21,7 @@ function Users() {
     const dataTable = React.useMemo(() => buildTableData(users), [users]);
     const navigate = useNavigate();
     const [isInitialRender, setIsInitialRender] = useState(true);
+    const [isModal, changeModalVisibility] = useState(false);
 
     const onDeleteUser = (e: React.MouseEvent<HTMLButtonElement>, id: number): void => {
         e.stopPropagation();
@@ -53,7 +55,7 @@ function Users() {
     }, []);
 
     return (
-        <div className="home_page bg-midnight flex-grow flex justify-center">
+        <div className="home_page bg-midnight flex-grow flex flex-col justify-start items-center content-center">
             { dataTable.length ?
                 <DataTable
                     data={ dataTable }
@@ -72,6 +74,13 @@ function Users() {
                     </svg>
                     Завантаження...
                 </button>}
+            <button className="bg-zinc-300 rounded-md text-xs w-[90px]
+                hover:bg-zinc-600 hover:shadow-black hover:shadow-sm"
+                    onClick={ () => changeModalVisibility(true) }
+            >
+                ADD NEW USER
+            </button>
+            { isModal && <Modal closeModal={() => changeModalVisibility(false)}/> }
         </div>
     );
 }

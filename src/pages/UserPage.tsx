@@ -8,7 +8,7 @@ import { FORM_MODE, FORM_MODE_ENUM } from './types';
 import { User } from '../api/type';
 
 import './userPage.scss';
-import UserForm from '../components/shared/form/User-form';
+import UserForm from '../components/user-form/User-form';
 
 function UserPage({ mode = FORM_MODE_ENUM.PREVIEW}: FORM_MODE) {
     const dispatch = useDispatch<AppDispatch>();
