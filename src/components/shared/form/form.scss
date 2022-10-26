@@ -1,0 +1,48 @@
+.form-container {
+
+  .user-form {
+    max-width: 500px;
+    margin: 0 auto;
+
+    &__block {
+      &__section {
+        padding-top: 15px;
+        color: #fecaca;
+      }
+      &__label {
+        line-height: 2;
+        text-align: left;
+        display: block;
+        //margin-bottom: 5px;
+        margin-top: 5px;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      &__input {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 4px;
+        border: 1px solid white;
+        padding: 2px 8px;
+        font-size: 14px;
+      }
+
+      input[type="submit"] {
+        background: #ec5990;
+        color: white;
+        text-transform: uppercase;
+        border-radius: 5px;
+        margin-top: 10px;
+        padding: 5px;
+        font-size: 16px;
+        font-weight: 100;
+        letter-spacing: 10px;
+      }
+    }
+  }
+}
+
+
