@@ -69,10 +69,10 @@ function UserPage({ mode = FORM_MODE_ENUM.PREVIEW}: FORM_MODE) {
 
     return (
         <div className="user-page flex-grow">
-            <UserForm
+            { !!user.id && <UserForm
                 mode={mode}
                 userData={user}
-            />
+            /> }
         </div>
     );
 }

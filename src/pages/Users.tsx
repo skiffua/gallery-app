@@ -35,6 +35,8 @@ function Users() {
         }
     }
 
+    // const getUsers = (): void => {}
+
     useEffect(() => {
         const userId: null | number = user && user.id;
 
@@ -44,14 +46,17 @@ function Users() {
     }, [user]);
 
     useEffect(() => {
-        // delay fetching
-        const timeOutId = setTimeout(() => {
-            dispatch(fetchUsers());
-        }, Math.floor(Math.random() * 4000));
+        let timeOutId: NodeJS.Timeout;
+        if (users.length === 0) {
+            // delay fetching
+            timeOutId = setTimeout(() => {
+                dispatch(fetchUsers());
+            }, Math.floor(Math.random() * 4000));
 
-        setIsInitialRender(false);
+            setIsInitialRender(false);
+        }
 
-        return () => { clearTimeout(timeOutId); }
+        return () => { if (timeOutId) { clearTimeout(timeOutId); } }
     }, []);
 
     return (
