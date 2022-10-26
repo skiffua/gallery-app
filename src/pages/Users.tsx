@@ -3,7 +3,7 @@ import { useDispatch, useSelector  } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './user.scss';
 
-import {fetchUser, fetchUsers} from '../store/actions';
+import { fetchUsers } from '../store/actions';
 
 import { User } from '../api/type';
 import { AppDispatch, RootState } from '../store/store';
@@ -12,6 +12,7 @@ import { buildTableData, usersColumns } from '../helpers/data_table';
 import DataTable from '../components/shared/Data-table';
 import { deleteUser } from '../store/usersSlice';
 import { Row } from 'react-table';
+import Modal from '../components/shared/modal/Modal';
 
 function Users() {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +21,7 @@ function Users() {
     const dataTable = React.useMemo(() => buildTableData(users), [users]);
     const navigate = useNavigate();
     const [isInitialRender, setIsInitialRender] = useState(true);
+    const [isModal, changeModalVisibility] = useState(false);
 
     const onDeleteUser = (e: React.MouseEvent<HTMLButtonElement>, id: number): void => {
         e.stopPropagation();
@@ -29,31 +31,36 @@ function Users() {
 
     const onRowClick = ({ values: { id } }: Row): void => {
         if (id) {
-            dispatch(fetchUser(id));
+            navigate(`/user/${id}`);
         }
     }
+
+    // const getUsers = (): void => {}
 
     useEffect(() => {
         const userId: null | number = user && user.id;
 
         if (user && userId && !isInitialRender) {
-            navigate(`/user:${userId}`);
+            navigate(`/user/:${userId}`);
         }
     }, [user]);
 
     useEffect(() => {
-        // delay fetching
-        const timeOutId = setTimeout(() => {
-            dispatch(fetchUsers());
-        }, Math.floor(Math.random() * 4000));
+        let timeOutId: NodeJS.Timeout;
+        if (users.length === 0) {
+            // delay fetching
+            timeOutId = setTimeout(() => {
+                dispatch(fetchUsers());
+            }, Math.floor(Math.random() * 4000));
 
-        setIsInitialRender(false);
+            setIsInitialRender(false);
+        }
 
-        return () => { clearTimeout(timeOutId); }
+        return () => { if (timeOutId) { clearTimeout(timeOutId); } }
     }, []);
 
     return (
-        <div className="home_page bg-midnight flex-grow flex justify-center">
+        <div className="home_page bg-midnight flex-grow flex flex-col justify-start items-center content-center">
             { dataTable.length ?
                 <DataTable
                     data={ dataTable }
@@ -72,6 +79,13 @@ function Users() {
                     </svg>
                     Завантаження...
                 </button>}
+            <button className="bg-zinc-300 rounded-md text-xs w-[90px]
+                hover:bg-zinc-600 hover:shadow-black hover:shadow-sm"
+                    onClick={ () => changeModalVisibility(true) }
+            >
+                ADD NEW USER
+            </button>
+            { isModal && <Modal closeModal={() => changeModalVisibility(false)}/> }
         </div>
     );
 }

@@ -23,6 +23,15 @@ export const usersSlice = createSlice({
                 state.users.splice(indexUserToDel, 1);
             }
         },
+        updateUser(state, { payload }: PayloadAction<User>): void {
+            const { id } = payload;
+            const findUserIndex = state.users.findIndex(({ id: userId }: User) => userId === id );
+
+            if (findUserIndex >= 0) { state.users[findUserIndex] = { ...payload }}
+        },
+        addUser(state, { payload }: PayloadAction<User>): void {
+            state.users.push({ ...payload, id: state.users.length + 1 });
+        },
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
@@ -40,6 +49,6 @@ export const usersSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { deleteUser } = usersSlice.actions
+export const { deleteUser, updateUser, addUser } = usersSlice.actions
 
 export default usersSlice.reducer
