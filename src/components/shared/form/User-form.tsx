@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { FORM_MODE, FORM_MODE_ENUM } from '../../../pages/types';
 import { User } from '../../../api/type';
 
 import './form.scss';
+import { AppDispatch } from '../../../store/store';
+import { updateUser } from '../../../store/usersSlice';
 
 function UserForm({
     mode = FORM_MODE_ENUM.PREVIEW,
     userData,
                   }: FORM_MODE & { userData: User }) {
+    const dispatch = useDispatch<AppDispatch>();
     const [formMode, setFormMode] = useState(FORM_MODE_ENUM.PREVIEW);
 
-    const { register, setValue, handleSubmit, formState: { errors } } = useForm({
+    const { register, setValue, getValues, handleSubmit, formState: { errors } } = useForm({
         mode: 'onChange',
         defaultValues: {
             formData: {
+                id: NaN,
                 name: '',
                 username: '',
                 phone: '',
@@ -39,13 +44,19 @@ function UserForm({
 
     const isDisabledInput = (): boolean => formMode === FORM_MODE_ENUM.PREVIEW;
 
-    const setFormToEditState = (): void => {
-        setFormMode(FORM_MODE_ENUM.EDIT);
+    const changeFormMode = (mode: FORM_MODE_ENUM): void => {
+        setFormMode(mode);
+    }
+
+    const editUser = (): any => {
+        dispatch(updateUser(getValues().formData));
+        changeFormMode(FORM_MODE_ENUM.PREVIEW);
     }
 
     useEffect(() => {
         if (userData) {
             const {
+                id,
                 name,
                 username,
                 phone,
@@ -56,6 +67,7 @@ function UserForm({
             } = userData;
 
             setValue('formData',{
+                id,
                 name,
                 username,
                 phone,
@@ -169,12 +181,17 @@ function UserForm({
                     { formMode === FORM_MODE_ENUM.ADD &&
                         <input type="submit" value="Submit" className="cursor-pointer" />  }
                     { formMode === FORM_MODE_ENUM.EDIT &&
-                        <input type="submit" value="EDIT" className="cursor-pointer" />  }
+                        <input
+                            type="submit"
+                            value="EDIT"
+                            className="cursor-pointer"
+                            onClick={editUser}
+                        />  }
                     { formMode === FORM_MODE_ENUM.PREVIEW
                         && <input
                             type="submit"
                             value="Click To Edit"
-                            onClick={setFormToEditState}
+                            onClick={() => changeFormMode(FORM_MODE_ENUM.EDIT)}
                             className="cursor-pointer"
                         />  }
                 </div>
