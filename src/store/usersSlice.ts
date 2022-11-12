@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit';
 
-import {fetchUsers} from './actions';
+import { fetchUsers } from './actions';
 import { User } from '../api/type';
 
 export interface UsersState {
@@ -30,7 +30,10 @@ export const usersSlice = createSlice({
             if (findUserIndex >= 0) { state.users[findUserIndex] = { ...payload }}
         },
         addUser(state, { payload }: PayloadAction<User>): void {
-            state.users.push({ ...payload, id: state.users.length + 1 });
+            console.log(typeof state.users.map(({ id }: User) => id));
+            const maxId: number = Math.max(...state.users.map(({ id }: User) => id));
+
+            state.users.push({ ...payload, id: maxId + 1 });
         },
     },
     extraReducers: (builder) => {

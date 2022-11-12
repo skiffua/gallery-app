@@ -13,6 +13,9 @@ import DataTable from '../components/shared/Data-table';
 import { deleteUser } from '../store/usersSlice';
 import { Row } from 'react-table';
 import Modal from '../components/shared/modal/Modal';
+import { FORM_MODE_ENUM } from './types';
+import { defaultUserForm } from '../components/user-form/constants';
+import UserForm from '../components/user-form/User-form';
 
 function Users() {
     const dispatch = useDispatch<AppDispatch>();
@@ -85,7 +88,14 @@ function Users() {
             >
                 ADD NEW USER
             </button>
-            { isModal && <Modal closeModal={() => changeModalVisibility(false)}/> }
+            { isModal &&
+                <Modal>
+                    <UserForm
+                        mode={ FORM_MODE_ENUM.ADD }
+                        userData={ defaultUserForm }
+                        closeModal={ () => changeModalVisibility(false) }
+                    />
+                </Modal> }
         </div>
     );
 }
