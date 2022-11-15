@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import InputMask from 'react-input-mask';
 
 import { FORM_MODE, FORM_MODE_ENUM } from '../../pages/types';
 import { User } from '../../api/type';
@@ -17,7 +18,7 @@ function UserForm({
     const dispatch = useDispatch<AppDispatch>();
     const [formMode, setFormMode] = useState(FORM_MODE_ENUM.PREVIEW);
 
-    const { register, setValue, getValues, handleSubmit, formState: { isValid, errors } } = useForm({
+    const { register, setValue, getValues, handleSubmit, control, formState: { isValid, errors } } = useForm({
         mode: 'onChange',
         defaultValues: {
             formData: {
@@ -126,10 +127,20 @@ function UserForm({
                 </div>
                 <div>
                     <label className="user-form__block__label" htmlFor="formData.phone">Phone</label>
-                    <input
-                        className="user-form__block__input"
-                        disabled={isDisabledInput()}
-                        {...register('formData.phone')}
+                    {/*<input*/}
+                    {/*    className="user-form__block__input"*/}
+                    {/*    disabled={isDisabledInput()}*/}
+                    {/*    {...register('formData.phone')}*/}
+                    {/*/>*/}
+                    <Controller
+                        control={control}
+                        name="formData.phone"
+                        render={({ field: { onChange, onBlur, ref } }) => (
+                            <InputMask
+                                className="user-form__block__input"
+                                mask="(999) 999-9999"
+                            />
+                        )}
                     />
                 </div>
                 <div className="user-form__block">
