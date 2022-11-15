@@ -17,7 +17,7 @@ function UserForm({
     const dispatch = useDispatch<AppDispatch>();
     const [formMode, setFormMode] = useState(FORM_MODE_ENUM.PREVIEW);
 
-    const { register, setValue, getValues, handleSubmit, formState: { errors } } = useForm({
+    const { register, setValue, getValues, handleSubmit, formState: { isValid, errors } } = useForm({
         mode: 'onChange',
         defaultValues: {
             formData: {
@@ -55,8 +55,10 @@ function UserForm({
     }
 
     const addNewUser = (): any => {
-        if(closeModal) { closeModal() }
-        dispatch(addUser(getValues().formData));
+        if(closeModal && isValid) {
+            closeModal();
+            dispatch(addUser(getValues().formData));
+        }
     }
 
     useEffect(() => {
@@ -93,24 +95,33 @@ function UserForm({
         setFormMode(mode);
     }, []);
 
+    // useEffect( () => {
+    //     console.log('formState', formState);
+    // }, [isValid]);
+
     return (
         <div className="form-container">
-            <form className="form-container__form user-form" onSubmit={handleSubmit(onSubmit)}>
+            <form
+                className="form-container__form user-form"
+                onSubmit={ handleSubmit(onSubmit) }
+                autoComplete="off"
+            >
                 {/* register your input into the hook by invoking the "register" function */}
                 <div className="user-form__block">
                     <label className="user-form__block__label" htmlFor="formData.name">Name</label>
                     <input
                         className="user-form__block__input"
                         disabled={isDisabledInput()}
-                        {...register('formData.name')}
+                        { ...register('formData.name', { required: 'required text', maxLength: 20 }) }
                     />
+                    {errors.formData?.name && <p>{errors.formData.name.message}</p>}
                 </div>
                 <div>
                     <label className="user-form__block__label" htmlFor="formData.username">User Name</label>
                     <input
                         className="user-form__block__input"
                         disabled={isDisabledInput()}
-                        {...register('formData.username')}
+                        {...register('formData.username', { required: 'required field', maxLength: 30 }) }
                     />
                 </div>
                 <div>
