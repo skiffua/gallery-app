@@ -89,7 +89,7 @@ function Users() {
                 ADD NEW USER
             </button>
             { isModal &&
-                <Modal>
+                <Modal closeModal={ () => changeModalVisibility(false) }>
                     <UserForm
                         mode={ FORM_MODE_ENUM.ADD }
                         userData={ defaultUserForm }
