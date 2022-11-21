@@ -38,11 +38,17 @@
         color: white;
         text-transform: uppercase;
         border-radius: 5px;
+        border: 2px solid black;
         margin-top: 10px;
         padding: 5px;
-        font-size: 16px;
-        font-weight: 100;
-        letter-spacing: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 5px;
+
+        &:hover {
+          background: #EC5990E4;
+          border: 2px solid orange;
+        }
       }
     }
   }
