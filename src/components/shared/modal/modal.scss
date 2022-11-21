@@ -1,0 +1,15 @@
+.modal-container {
+
+  &__header {
+    height: 25px;
+  }
+
+  &__content {
+    max-height: 600px;
+  }
+
+  .close-modal {
+    height: 18px;
+    width: 18px;
+  }
+}
