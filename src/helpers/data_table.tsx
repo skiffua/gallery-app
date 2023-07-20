@@ -1,4 +1,4 @@
-import React, {MouseEventHandler} from 'react';
+import React, {JSX, MouseEventHandler} from 'react';
 import {CellProps, Column } from 'react-table';
 
 import { User, UserToView } from '../api/type';
@@ -26,6 +26,8 @@ export const usersColumns: (par: (e: React.MouseEvent<HTMLButtonElement>, arg: n
     {
         Header: 'Actions',
         accessor: 'action',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         Cell: ({ row }: CellProps<User>): JSX.Element => (
                 // Use Cell to render an expander for each row.
                 // We can use the getToggleRowExpandedProps prop-getter

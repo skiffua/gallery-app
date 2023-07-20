@@ -10,10 +10,12 @@ import { User } from '../api/type';
 import './userPage.scss';
 import UserForm from '../components/user-form/User-form';
 
-function UserPage({ mode = FORM_MODE_ENUM.PREVIEW}: FORM_MODE) {
+function UserPage({ mode = FORM_MODE_ENUM.PREVIEW}: FORM_MODE, ...rest: any) {
     const dispatch = useDispatch<AppDispatch>();
     const { id } = useParams<Record<'id', string>>();
     const { user } = useSelector<RootState, { user: User }>((state) => state.user);
+
+    console.log(rest);
 
     useEffect( () => {
         if (id) {
